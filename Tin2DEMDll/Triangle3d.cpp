@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Triangle3d.h"
 
-namespace DigitalPhotogeommetry
+namespace DigitalPhotogrammetry
 {
     CTriangle3d::CTriangle3d()
     {

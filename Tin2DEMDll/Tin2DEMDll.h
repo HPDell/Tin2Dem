@@ -10,13 +10,12 @@
 #define TIN2DEMDLL_API __declspec(dllimport)
 #endif
 
-// 此类是从 Tin2DEMDll.dll 导出的
-class TIN2DEMDLL_API CTin2DEMDll {
-public:
-	CTin2DEMDll(void);
-	// TODO:  在此添加您的方法。
-};
+namespace DigitalPhotogrammetry
+{
+    class CTriangle3d;
+    class CTin2DEM;
 
-extern TIN2DEMDLL_API int nTin2DEMDll;
+}
 
-TIN2DEMDLL_API int fnTin2DEMDll(void);
+//#include "Triangle3d.h"
+//#include "Tin2DEM.h"

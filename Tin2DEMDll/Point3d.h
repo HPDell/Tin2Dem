@@ -5,7 +5,7 @@
 #define TIN2DEMDLL_API __declspec(dllimport)
 #endif
 
-namespace DigitalPhotogeommetry
+namespace DigitalPhotogrammetry
 {
     class CPoint3d
     {

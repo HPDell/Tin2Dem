@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "Point3d.h"
+#include "Dem.h"
+
 
 namespace DigitalPhotogrammetry
 {
-
-    CPoint3d::~CPoint3d()
+    CDem::~CDem()
     {
     }
 

@@ -36,6 +36,9 @@
     <ClInclude Include="Triangle3d.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Dem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -54,6 +57,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Triangle3d.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Dem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,18 +1,16 @@
 #include "stdafx.h"
 #include "Tin2DEM.h"
+#include "Triangle3d.h"
 
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <Eigen/Eigen>
 using namespace std;
+using namespace Eigen;
 
-namespace DigitalPhotogeommetry
+namespace DigitalPhotogrammetry
 {
-    CTin2DEM::CTin2DEM()
-    {
-    }
-
-
     CTin2DEM::~CTin2DEM()
     {
     }
@@ -51,6 +49,7 @@ namespace DigitalPhotogeommetry
         {
             double lf_coordinates[3] = { 0.0 };
             fin >> lf_coordinates[0] >> lf_coordinates[1] >> lf_coordinates[2];
+            UpdateAreaRange(lf_coordinates[0], lf_coordinates[1]);
             v_points.push_back(Vector3d(lf_coordinates[0], lf_coordinates[1], lf_coordinates[2]));
             n_nodeRead++;
         }

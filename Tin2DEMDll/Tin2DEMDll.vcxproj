@@ -103,7 +103,11 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <RegisterOutput>false</RegisterOutput>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -139,6 +143,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dem.h" />
     <ClInclude Include="Point3d.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -147,6 +152,7 @@
     <ClInclude Include="Triangle3d.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Dem.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
