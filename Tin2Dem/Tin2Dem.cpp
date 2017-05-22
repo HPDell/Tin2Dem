@@ -6,7 +6,7 @@
 #include "stdafx.h"
 
 // ÒýÓÃTin2DemDll
-#include "Tin2DEMDll.h"
+#include "ITin2DEM.h"
 //#include "Tin2DEM.h"
 
 //#include "Tin2DEM.h"
@@ -14,7 +14,7 @@ using namespace DigitalPhotogrammetry;
 
 int main()
 {
-    CTin2DEM* tin2dem;
+    ITin2DEM* tin2dem = ITin2DEM::create();
 
 }
 

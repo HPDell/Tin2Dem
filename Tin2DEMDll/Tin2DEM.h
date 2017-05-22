@@ -15,7 +15,7 @@ namespace DigitalPhotogrammetry
      * 将不规则三角网转换为规则格网
      * 
      */
-    class CTin2DEM : ITin2DEM
+    class CTin2DEM : public ITin2DEM
     {
     private:
         // 三角形数据
@@ -43,7 +43,7 @@ namespace DigitalPhotogrammetry
         /// <param name="sTinPath">Tin数据文件路径</param>
         /// <returns></returns>
         /// <created>HuYG,2017/5/22</created>
-        BOOL ReadTin(const char* sTinPath);
+        virtual BOOL ReadTin(const char* sTinPath);
         /// <summary>
         /// 更新测区范围
         /// </summary>

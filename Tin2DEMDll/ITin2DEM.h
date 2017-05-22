@@ -8,12 +8,14 @@ namespace DigitalPhotogrammetry
 {
     class TIN2DEMDLL_API ITin2DEM
     {
-        virtual BOOL ReadTin() = 0;
-        virtual void UpdateAreaRange(double lf_X, double lf_Y) = 0;
+    public:
+        virtual BOOL ReadTin(const char* sTinPath) = 0;
+        //virtual void UpdateAreaRange(double lf_X, double lf_Y) = 0;
+        
+        static ITin2DEM* create()
+        {
+            return new CTin2DEM();
+        }
     };
 
-    extern "C" TIN2DEMDLL_API ITin2DEM* CreateTin2DEM()
-    {
-        return new CTin2DEM();
-    }
 }
