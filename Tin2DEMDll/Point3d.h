@@ -49,6 +49,13 @@ namespace DigitalPhotogrammetry
         {
             this->X = lf_X; this->Y = lf_Y; this->Z = lf_Z;
         }
+
+        void operator=(CPoint3d& source)
+        {
+            X = source.X;
+            Y = source.Y;
+            Z = source.Z;
+        }
     };
 
 }

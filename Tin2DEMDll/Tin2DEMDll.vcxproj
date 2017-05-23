@@ -143,7 +143,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataTypes.h" />
     <ClInclude Include="Dem.h" />
+    <ClInclude Include="IDem.h" />
     <ClInclude Include="ITin2DEM.h" />
     <ClInclude Include="Point3d.h" />
     <ClInclude Include="stdafx.h" />
@@ -168,6 +170,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="IDem.cpp" />
+    <ClCompile Include="ITin2DEM.cpp" />
     <ClCompile Include="Point3d.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
