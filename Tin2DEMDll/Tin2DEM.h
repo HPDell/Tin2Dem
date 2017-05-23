@@ -92,6 +92,7 @@ namespace DigitalPhotogrammetry
             if (!is_DemAreaSet) return -1;
             size_t rows = (size_t)(m_lfYmax - m_lfYmin) / m_lfDemResolution, cols = (size_t)(m_lfXmax - m_lfXmin) / m_lfDemResolution;
             m_dem.SetConfig(m_lfDemResolution, m_lfXmin, m_lfYmin, rows, cols);
+            is_DemInit = true;
             return 1;
         }
         /// <summary>

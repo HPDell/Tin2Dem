@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Dem.h"
 
+#include <iomanip>
 #include <fstream>
 
 using namespace std;
@@ -86,21 +87,24 @@ namespace DigitalPhotogrammetry
     void CDem::Print(const char * filepath)
     {
         ofstream fout(filepath);
+        fout.setf(fout.fixed);
+        fout.fill(' ');
         fout.precision(6);
         // 开始写数据
         // 文件头
-        fout << x_min << " " << y_min << " ";
-        fout.width(9);
+        //fout.width(9);
+        fout << setw(9) << x_min << " " << y_min << " ";
         fout.setf(fout.right);
         fout << 0.0 << " " << resolution << " " << resolution << " " << cols << " " << rows << endl;
         // 数据体
-        fout.precision(3);
-        fout.width(12);
+        //fout.width(12);
+        //fout.precision(3);
+        fout.fill(' ');
         for (size_t i = 0; i < rows; i++)
         {
             for (size_t j = 0; j < cols; j++)
             {
-                fout << *(m_pDem + i * cols + j);
+                fout << setw(12) << setprecision(3) << *(m_pDem + i * cols + j);
             }
             fout << endl;
         }

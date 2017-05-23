@@ -10,6 +10,29 @@ namespace DigitalPhotogrammetry
     class TIN2DEMDLL_API ITin2DEM
     {
     public:
+        /*********
+        ** 构造 **
+        *********/
+        /// <summary>
+        /// 默认构造函数
+        /// </summary>
+        /// <returns></returns>
+        /// <created>HuYG,2017/5/23</created>
+        static ITin2DEM* create();
+        /// <summary>
+        /// 赋值构造函数
+        /// </summary>
+        /// <param name="lf_demResolution">DEM数据的分辨率</param>
+        /// <returns></returns>
+        /// <created>HuYG,2017/5/23</created>
+        static ITin2DEM* create(double lf_demResolution);
+        /// <summary>
+        /// 析构函数
+        /// </summary>
+        /// <returns></returns>
+        /// <created>HuYG,2017/5/23</created>
+        static void del(ITin2DEM* pInstance);
+
         /// <summary>
         /// 读取TIN数据
         /// </summary>
@@ -46,12 +69,6 @@ namespace DigitalPhotogrammetry
         /// <created>HuYG,2017/5/23</created>
         virtual void PrintDem(const char* filepath) = 0;
 
-        static ITin2DEM* create();
-
-        static ITin2DEM* create(double lf_demResolution);
-        
-
-        static void del(ITin2DEM* pInstance);
     };
 
 }
