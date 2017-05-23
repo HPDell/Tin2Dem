@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Point3d.h"
 
-namespace DigitalPhotogeommetry
+namespace DigitalPhotogrammetry
 {
 
     CPoint3d::~CPoint3d()

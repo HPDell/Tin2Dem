@@ -1,22 +1,19 @@
 #pragma once
-#ifdef TIN2DEMDLL_EXPORTS
-#define TIN2DEMDLL_API __declspec(dllexport)
-#else
-#define TIN2DEMDLL_API __declspec(dllimport)
-#endif
 
-#include <Eigen/Eigen>
+//#include <Eigen/Eigen>
+
+#include "DataTypes.h"
 
 #include "Point3d.h"
+//using namespace Eigen;
 
-using namespace Eigen;
-
-namespace DigitalPhotogeommetry
+namespace DigitalPhotogrammetry
 {
-    class CTriangle3d
+    class TIN2DEMDLL_API CTriangle3d
     {
     public:
-        Vector3d Nodes[3];  // 三角形的三个结点
+        //Vector3d nodes[3];  // 三角形的三个结点
+        CPoint3d nodes[3];
 
     public:
         /// <summary>
@@ -33,7 +30,8 @@ namespace DigitalPhotogeommetry
         /// <param name="node3">第三个结点</param>
         /// <returns></returns>
         /// <created>HuYG,2017/5/22</created>
-        CTriangle3d(Vector3d& node1, Vector3d& node2, Vector3d& node3);
+        //CTriangle3d(Vector3d& node1, Vector3d& node2, Vector3d& node3);
+        CTriangle3d(CPoint3d& node1, CPoint3d& node2, CPoint3d& node3);
         ~CTriangle3d();
     };
 

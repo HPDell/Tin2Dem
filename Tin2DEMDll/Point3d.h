@@ -5,7 +5,7 @@
 #define TIN2DEMDLL_API __declspec(dllimport)
 #endif
 
-namespace DigitalPhotogeommetry
+namespace DigitalPhotogrammetry
 {
     class CPoint3d
     {
@@ -48,6 +48,13 @@ namespace DigitalPhotogeommetry
         void SetCoordinate(double lf_X, double lf_Y, double lf_Z)
         {
             this->X = lf_X; this->Y = lf_Y; this->Z = lf_Z;
+        }
+
+        void operator=(CPoint3d& source)
+        {
+            X = source.X;
+            Y = source.Y;
+            Z = source.Z;
         }
     };
 

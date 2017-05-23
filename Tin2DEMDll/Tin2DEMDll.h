@@ -4,19 +4,7 @@
 // 任何其他项目上不应定义此符号。这样，源文件中包含此文件的任何其他项目都会将
 // TIN2DEMDLL_API 函数视为是从 DLL 导入的，而此 DLL 则将用此宏定义的
 // 符号视为是被导出的。
-#ifdef TIN2DEMDLL_EXPORTS
-#define TIN2DEMDLL_API __declspec(dllexport)
-#else
-#define TIN2DEMDLL_API __declspec(dllimport)
-#endif
 
-// 此类是从 Tin2DEMDll.dll 导出的
-class TIN2DEMDLL_API CTin2DEMDll {
-public:
-	CTin2DEMDll(void);
-	// TODO:  在此添加您的方法。
-};
 
-extern TIN2DEMDLL_API int nTin2DEMDll;
-
-TIN2DEMDLL_API int fnTin2DEMDll(void);
+#include "IDem.h"
+#include "ITin2DEM.h"
