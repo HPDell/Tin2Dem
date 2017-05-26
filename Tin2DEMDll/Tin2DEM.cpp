@@ -108,12 +108,14 @@ namespace DigitalPhotogrammetry
                 (int)(tri_node_range[1] - m_lfYmin) / m_lfDemResolution,
                 (int)(tri_node_range[3] - m_lfYmin) / m_lfDemResolution + 1
             }; // 偏移值的顺序为： Nx_min Nx_max Ny_min Ny_max
-            double area_config[] = {
+            double area_start[] = {
                 m_lfXmin + m_lfDemResolution * offset[0],
-                m_lfYmin + m_lfDemResolution * offset[2],
+                m_lfYmin + m_lfDemResolution * offset[2]
+            }; // 代表三角形所在区域最大范围的参数，前两个为最小X Y坐标
+            size_t area_size[] = {
                 offset[1] - offset[0] + 1,
                 offset[3] - offset[2] + 1
-            }; // 代表三角形所在区域最大范围的参数，前两个为最小X Y坐标，后两个为X Y方向包含的格网数
+            };
 
             // 拟合三角形三条边的方程
             // 生成三角形三个点的其次坐标
@@ -129,35 +131,55 @@ namespace DigitalPhotogrammetry
                 arcs_h[i] = nodes_h[(i + 1) % 3].cross(nodes_h[(i + 2) % 3]);
             }
             // 对三角形范围内每一个点进行判断
-            for (size_t ix = 0; ix < area_config[2]; ix++)
+            for (size_t iy = 0; iy < area_size[1]; iy++)
             {
-                for (size_t iy = 0; iy < area_config[3]; iy++)
+                for (size_t ix = 0; ix < area_size[0]; ix++)
                 {
                     // 当前点的齐次坐标
-                    Vector3d cur(area_config[0] + ix * m_lfDemResolution, area_config[1] + iy * m_lfDemResolution, 1.0);
-                    //double cur_x = area_config[0] + ix * m_lfDemResolution;
-                    //double cur_y = area_config[y] + iy * m_lfDemResolution;
+                    Vector3d cur(area_start[0] + ix * m_lfDemResolution, area_start[1] + iy * m_lfDemResolution, 1.0);
                     // 判断当前点是否在三角形内
                     int flag = 0; // 当前点状态的变量。只有当 flag = 7 时，才代表当前点在三角形内
-                    flag = (abs(cur.dot(arcs_h[0]) - nodes_h[0].dot(arcs_h[0])) < 1.0e-8) ? flag | 4 : flag;
-                    flag = (abs(cur.dot(arcs_h[1]) - nodes_h[1].dot(arcs_h[1])) < 1.0e-8) ? flag | 2 : flag;
-                    flag = (abs(cur.dot(arcs_h[2]) - nodes_h[2].dot(arcs_h[2])) < 1.0e-8) ? flag | 1 : flag;
+                    //double cur_BC = cur.dot(arcs_h[0]), 
+                    //    cur_AC = cur.dot(arcs_h[1]),
+                    //    cur_AB = cur.dot(arcs_h[2]),
+                    //    A_BC = nodes_h[0].dot(arcs_h[0]),
+                    //    B_AC = nodes_h[1].dot(arcs_h[1]),
+                    //    C_AB = nodes_h[2].dot(arcs_h[2]);
+                    //if (abs(cur_BC) < 1.0e-5 || abs(cur_AC) < 1.0e-5 || abs(cur_AB) < 1.0e-5)
+                    //{
+                    //    //cout << "点(" << cur(0) << "," << cur(1) << ")在边上" << endl;
+                    //}
+                    //if (cur_BC == 0.0 || cur_AC == 0.0 || cur_AB == 0.0)
+                    //{
+                    //    cout << "点(" << cur(0) << "," << cur(1) << ")在边上" << endl;
+                    //}
+                    flag = ((cur.dot(arcs_h[0]) < 0) == (nodes_h[0].dot(arcs_h[0]) <= 0)) ? flag | 4 : flag;
+                    flag = ((cur.dot(arcs_h[1]) < 0) == (nodes_h[1].dot(arcs_h[1]) <= 0)) ? flag | 2 : flag;
+                    flag = ((cur.dot(arcs_h[2]) < 0) == (nodes_h[2].dot(arcs_h[2]) <= 0)) ? flag | 1 : flag;
                     // 如果点在三角形内，内插其高程值
-                    if (flag == 7)
+                    switch (flag)
                     {
-                        // 计算内插参数
-                        Matrix3d matA = Matrix3d::Constant(1.0);
-                        matA(0, 0) = triangle->nodes[0].X;
-                        matA(0, 1) = triangle->nodes[1].X;
-                        matA(0, 2) = triangle->nodes[2].X;
-                        matA(1, 0) = triangle->nodes[0].Y;
-                        matA(1, 1) = triangle->nodes[1].Y;
-                        matA(1, 2) = triangle->nodes[2].Y;
-                        Vector3d coefficient = matA.ldlt().solve(cur);
-                        // 内插高程值
-                        double elevation = coefficient.dot(Vector3d(triangle->nodes[0].Z, triangle->nodes[1].Z, triangle->nodes[2].Z));
-                        // DEM 对象记录高程值
-                        m_dem.SetElevation(offset[0] + ix, offset[2] + iy, elevation);
+                        case 7:
+                        {
+                            if (flag == 7)
+                            {
+                                // 计算内插参数
+                                Matrix3d matA = Matrix3d::Constant(1.0);
+                                matA(0, 0) = triangle->nodes[0].X;
+                                matA(0, 1) = triangle->nodes[1].X;
+                                matA(0, 2) = triangle->nodes[2].X;
+                                matA(1, 0) = triangle->nodes[0].Y;
+                                matA(1, 1) = triangle->nodes[1].Y;
+                                matA(1, 2) = triangle->nodes[2].Y;
+                                Vector3d coefficient = matA.ldlt().solve(cur);
+                                // 内插高程值
+                                double elevation = coefficient.dot(Vector3d(triangle->nodes[0].Z, triangle->nodes[1].Z, triangle->nodes[2].Z));
+                                // DEM 对象记录高程值
+                                m_dem.SetElevation(offset[0] + ix, offset[2] + iy, elevation);
+                            }
+                        }
+                        default:
+                            break;
                     }
                 }
             }

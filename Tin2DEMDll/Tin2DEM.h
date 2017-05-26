@@ -90,8 +90,9 @@ namespace DigitalPhotogrammetry
         virtual BOOL InitDEM()
         {
             if (!is_DemAreaSet) return -1;
-            size_t rows = (size_t)(m_lfYmax - m_lfYmin) / m_lfDemResolution, cols = (size_t)(m_lfXmax - m_lfXmin) / m_lfDemResolution;
+            size_t rows = (size_t)(m_lfYmax - m_lfYmin) / m_lfDemResolution + 1, cols = (size_t)(m_lfXmax - m_lfXmin) / m_lfDemResolution + 1;
             m_dem.SetConfig(m_lfDemResolution, m_lfXmin, m_lfYmin, rows, cols);
+            is_DemInit = true;
             return 1;
         }
         /// <summary>

@@ -65,7 +65,10 @@ namespace DigitalPhotogrammetry
         /// <created>HuYG,2017/5/23</created>
         void SetElevation(size_t off_X, size_t off_Y, double lf_Elevation)
         {
-            *(m_pDem + off_Y * cols + off_X) = lf_Elevation;
+            if (off_X < cols && off_Y < rows)
+            {
+                *(m_pDem + off_Y * cols + off_X) = lf_Elevation;
+            }
         }
         /// <summary>
         /// 以文件的形式保存DEM
