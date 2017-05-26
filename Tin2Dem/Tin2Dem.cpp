@@ -42,7 +42,7 @@ int main(int argc, const char** argv)
     //tin2dem->PrintDem("Result.ddem");
     IDem* dem = tin2dem->GetDem();
     cout << "Êä³öDEM...";
-    //dem->Print(argv[3]);
+    dem->Print(argv[3]);
     cout << "Íê³É" << endl;
 
     ITin2DEM::del(tin2dem);
