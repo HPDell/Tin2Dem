@@ -50,7 +50,7 @@ namespace DigitalPhotogrammetry
         /// 初始化DEM对象
         /// </summary>
         /// <created>HuYG,2017/5/23</created>
-        virtual BOOL InitDEM() = 0;
+        virtual void InitDEM() = 0;
         /// <summary>
         /// 将TIN数据转换为DEM数据
         /// </summary>

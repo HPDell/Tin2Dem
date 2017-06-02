@@ -11,6 +11,9 @@ namespace DigitalPhotogrammetry
     {
     private:
         double* m_pDem;
+        //size_t* m_pChangeTime;
+        double m_lfZmin;
+        double m_lfZmax;
 
     public:
         double x_min;
@@ -49,6 +52,17 @@ namespace DigitalPhotogrammetry
         /// <created>HuYG,2017/5/23</created>
         void SetConfig(double lf_demResolution, double lf_Xmin, double lf_Ymin, size_t n_rows, size_t n_cols);
         /// <summary>
+        /// 设定高程范围
+        /// </summary>
+        /// <param name="lf_min">最小值</param>
+        /// <param name="lf_max">最大值</param>
+        /// <created>HuYG,2017/5/26</created>
+        void SetElevationRange(double lf_min, double lf_max)
+        {
+            m_lfZmin = lf_min;
+            m_lfZmax = lf_max;
+        }
+        /// <summary>
         /// 设置高程值
         /// </summary>
         /// <param name="lf_X">高程点的X坐标</param>
@@ -59,15 +73,17 @@ namespace DigitalPhotogrammetry
         /// <summary>
         /// 设置高程值
         /// </summary>
-        /// <param name="off_X">高程点的X坐标</param>
-        /// <param name="off_Y">高程点的Y坐标</param>
+        /// <param name="off_X">高程点的列号</param>
+        /// <param name="off_Y">高程点的行号</param>
         /// <param name="lf_Elevation">高程值</param>
         /// <created>HuYG,2017/5/23</created>
         void SetElevation(size_t off_X, size_t off_Y, double lf_Elevation)
         {
             if (off_X < cols && off_Y < rows)
             {
-                *(m_pDem + off_Y * cols + off_X) = lf_Elevation;
+                double* pCur = m_pDem + off_Y * cols + off_X;
+                //*pCur = (lf_Elevation < m_lfZmin || lf_Elevation > m_lfZmax) ? -99999.0 : lf_Elevation;
+                *pCur = lf_Elevation;
             }
         }
         /// <summary>
