@@ -65,7 +65,8 @@ namespace DigitalPhotogrammetry
         {
             *(m_pDem + i) = -99999.0;
         }
-        //memset(m_pDem, INFINITE, rows*cols * sizeof(double));
+        //this->m_pChangeTime = new size_t[rows*cols];
+        //memset(m_pChangeTime, 0, rows*cols * sizeof(size_t));
     }
 
     /// <summary>
@@ -97,8 +98,6 @@ namespace DigitalPhotogrammetry
         fout.setf(fout.right);
         fout << 0.0 << " " << resolution << " " << resolution << " " << cols << " " << rows << endl;
         // КэѕЭМе
-        //fout.width(12);
-        //fout.precision(3);
         fout.fill(' ');
         for (size_t i = 0; i < rows; i++)
         {
@@ -109,6 +108,21 @@ namespace DigitalPhotogrammetry
             fout << endl;
         }
         fout.close();
+
+        //fout.open(string(filepath) + string("_ChangeTimes.txt"));
+        //fout << setw(9) << x_min << " " << y_min << " ";
+        //fout.setf(fout.right);
+        //fout << 0.0 << " " << resolution << " " << resolution << " " << cols << " " << rows << endl;
+        //fout.fill(' ');
+        //for (size_t i = 0; i < rows; i++)
+        //{
+        //    for (size_t j = 0; j < cols; j++)
+        //    {
+        //        fout << setw(12) << setprecision(3) << *(m_pChangeTime + i * cols + j);
+        //    }
+        //    fout << endl;
+        //}
+        //fout.close();
     }
 
 }

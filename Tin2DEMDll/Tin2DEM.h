@@ -30,9 +30,12 @@ namespace DigitalPhotogrammetry
         double m_lfXmax;
         double m_lfYmin;
         double m_lfYmax;
-        bool is_DemAreaSet;
+        double m_lfZmin;
+        double m_lfZmax;
+        bool m_isSetOrigin;
+        bool m_isDemAreaSet;
         CDem m_dem;
-        bool is_DemInit;
+        bool m_isDemInit;
 
     public:
         /*********
@@ -45,8 +48,8 @@ namespace DigitalPhotogrammetry
         /// <created>HuYG,2017/5/23</created>
         CTin2DEM() 
             : m_lfDemResolution(-1.0)
-            , m_lfXmin(DBL_MAX), m_lfXmax(-DBL_MAX), m_lfYmin(DBL_MAX), m_lfYmax(-DBL_MAX)
-            , is_DemAreaSet(false), is_DemInit(false) {}
+            , m_lfXmin(DBL_MAX), m_lfXmax(-DBL_MAX), m_lfYmin(DBL_MAX), m_lfYmax(-DBL_MAX), m_lfZmin(DBL_MAX), m_lfZmax(-DBL_MAX)
+            , m_isDemAreaSet(false), m_isDemInit(false), m_isSetOrigin(false) {}
         /// <summary>
         /// 赋值构造函数
         /// </summary>
@@ -55,8 +58,14 @@ namespace DigitalPhotogrammetry
         /// <created>HuYG,2017/5/23</created>
         CTin2DEM(double lf_demResolution) 
             : m_lfDemResolution(lf_demResolution)
-            , m_lfXmin(DBL_MAX), m_lfXmax(-DBL_MAX), m_lfYmin(DBL_MAX), m_lfYmax(-DBL_MAX)
-            , is_DemAreaSet(false), is_DemInit(false) {}
+            , m_lfXmin(DBL_MAX), m_lfXmax(-DBL_MAX), m_lfYmin(DBL_MAX), m_lfYmax(-DBL_MAX), m_lfZmin(DBL_MAX), m_lfZmax(-DBL_MAX)
+            , m_isDemAreaSet(false), m_isDemInit(false), m_isSetOrigin(false) {}
+        CTin2DEM(double lf_demResolution, double lf_originX, double lf_originY)
+            : m_lfDemResolution(lf_demResolution)
+            , m_lfXmin(lf_originX), m_lfXmax(-DBL_MAX), m_lfYmin(lf_originY), m_lfYmax(-DBL_MAX)
+            , m_isDemAreaSet(false), m_isDemInit(false), m_isSetOrigin(true)
+        {
+        }
         /// <summary>
         /// 析构函数
         /// </summary>
@@ -87,13 +96,13 @@ namespace DigitalPhotogrammetry
         /// 初始化DEM对象
         /// </summary>
         /// <created>HuYG,2017/5/23</created>
-        virtual BOOL InitDEM()
+        virtual void InitDEM()
         {
-            if (!is_DemAreaSet) return -1;
+            if (!m_isDemAreaSet) return;
             size_t rows = (size_t)(m_lfYmax - m_lfYmin) / m_lfDemResolution + 1, cols = (size_t)(m_lfXmax - m_lfXmin) / m_lfDemResolution + 1;
             m_dem.SetConfig(m_lfDemResolution, m_lfXmin, m_lfYmin, rows, cols);
-            is_DemInit = true;
-            return 1;
+            m_dem.SetElevationRange(m_lfZmin, m_lfZmax);
+            m_isDemInit = true;
         }
         /// <summary>
         /// 将TIN数据转换为DEM数据
@@ -126,12 +135,16 @@ namespace DigitalPhotogrammetry
         /// <param name="lf_X"></param>
         /// <param name="lf_Y"></param>
         /// <created>HuYG,2017/5/22</created>
-        void UpdateAreaRange(double lf_X, double lf_Y)
+        void UpdateAreaRange(double lf_X, double lf_Y, double lf_Z)
         {
-            m_lfXmin = (lf_X < m_lfXmin) ? lf_X : m_lfXmin;
-            m_lfYmin = (lf_Y < m_lfYmin) ? lf_Y : m_lfYmin;
+            if (!m_isSetOrigin) {
+                m_lfXmin = (lf_X < m_lfXmin) ? lf_X : m_lfXmin;
+                m_lfYmin = (lf_Y < m_lfYmin) ? lf_Y : m_lfYmin;
+            }
             m_lfXmax = (lf_X > m_lfXmax) ? lf_X : m_lfXmax;
             m_lfYmax = (lf_Y > m_lfYmax) ? lf_Y : m_lfYmax;
+            m_lfZmin = (lf_Z < m_lfZmin) ? lf_Z : m_lfZmin;
+            m_lfZmax = (lf_Z > m_lfZmax) ? lf_Z : m_lfZmax;
         }
     };
 }

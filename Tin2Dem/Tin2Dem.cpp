@@ -27,6 +27,7 @@ int main(int argc, const char** argv)
     }
     // 创建对象
     cout << "创建对象...";
+    cout << "分辨率" << atof(argv[2]) << endl;
     ITin2DEM* tin2dem = ITin2DEM::create(atof(argv[2]));
     cout << "完成" << endl;
     // 读取TIN文件
@@ -38,6 +39,7 @@ int main(int argc, const char** argv)
     cout << "完成" << endl;
     cout << "转换TIN为DEM...";
     tin2dem->Convert2DEM();
+    //tin2dem->Convert2DEM_Backward();
     cout << "完成" << endl;
     //tin2dem->PrintDem("Result.ddem");
     IDem* dem = tin2dem->GetDem();
@@ -46,5 +48,7 @@ int main(int argc, const char** argv)
     cout << "完成" << endl;
 
     ITin2DEM::del(tin2dem);
+    
+    system("pause");
 }
 
